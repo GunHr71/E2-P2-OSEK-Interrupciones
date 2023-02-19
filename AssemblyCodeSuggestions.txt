@@ -1,0 +1,12 @@
+Sepa
+--ESTO Es lo hace cuando se mete a una función--
+push {r7, lr} 	//Asi se escribe la condicion de push, r7 es un registo x, lr es como el RA
+sub  sp, #8		//Le resta 8 al sp
+add  r7, sp, #0   //
+
+--ESTO Es lo hace cuando se sale de una función--
+nop
+adds  r7, #8
+mov   sp, r7
+pop  {r7, pc}
+nop

@@ -21,9 +21,9 @@
 
 typedef struct
 {
-  uint8_t return_address;
-  uint8_t stack_pointer;
-  uint8_t program_counter;
+  uint32_t return_address;
+  uint32_t stack_pointer;
+  uint32_t program_counter;
   /*context data */
 }context;
 
@@ -35,7 +35,7 @@ typedef struct
   uint8_t estado;
   uint8_t task_ID;
   uint8_t p_actual_task;
-  task_ptr p_initial_task;
+  task_ptr p_initial_task; //CHange to pc
   context task_context;
   /* data */
 }task;

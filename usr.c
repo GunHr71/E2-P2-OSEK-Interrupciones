@@ -9,16 +9,21 @@
 */
 #include <stdint.h>
 #include <stdlib.h>
-#include <osek.h>
+#include "osek.h"
 #include "fsl_gpio.h"
 #include "board.h"
-
+#include "PIT.h"
+#include "RGB.h"
 #define BOARD_LED_GPIO     BOARD_LED_RED_GPIO
 #define BOARD_LED_GPIO_PIN BOARD_LED_RED_GPIO_PIN
 
 int main(void)
 {
 	GPIO_Init();
+	RGB_blue_on();
+	RGB_blue_off();
+	Init_PIT();
+	PIT_callback_init(TIMER_1, scheduler);
 	OS_init();
 	while (1){};
 }
@@ -46,22 +51,4 @@ void task_C (void)
 
 }
 
-void GPIO_Init()
-{
-    gpio_pin_config_t led_config = {
-        kGPIO_DigitalOutput,
-        1,
-    };
-    CLOCK_EnableClock(kCLOCK_PortC);
-    CLOCK_EnableClock(kCLOCK_PortE);
-    CLOCK_EnableClock(kCLOCK_PortA);
-    PORT_SetPinMux(PORTC, 9U, kPORT_MuxAsGpio);
-    PORT_SetPinMux(PORTE, 6U, kPORT_MuxAsGpio);
-    PORT_SetPinMux(PORTA, 11U, kPORT_MuxAsGpio);
 
-    GPIO_PinInit(BOARD_LED_GPIO, BOARD_LED_GPIO_PIN, &led_config);
-    GPIO_PinInit(BOARD_LED_GPIO, BOARD_LED_GPIO_PIN, &led_config);
-    GPIO_PinInit(BOARD_LED_GPIO, BOARD_LED_GPIO_PIN, &led_config);
-    GPIO_PinInit(GPIOE, 6U, &led_config);
-    GPIO_PinInit(GPIOA, 11U, &led_config);
-}
