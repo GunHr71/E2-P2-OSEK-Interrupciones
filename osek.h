@@ -47,6 +47,8 @@ void chain_task (uint8_t task_ID,uint8_t Current_task_ID );
 void activate_task (uint8_t task_ID);
 void GPIO_Init();
 
+void Save_context(uint8_t task_ID);
+void Load_context(uint8_t task_ID);
 void task_A (void);
 void task_B (void);
 void task_C (void);

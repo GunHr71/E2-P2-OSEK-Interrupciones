@@ -80,3 +80,40 @@ void scheduler()
 		g_task_arr[max_priority_ID].p_initial_task();
 	}
 }
+static uint32_t ra, sp, pc;
+void Save_context(uint8_t task_ID)
+{
+
+	__asm("LDR R0,=ra");
+	__asm("STR R14,[R0]");
+
+	__asm("LDR R0,=sp");
+	__asm("STR R13,[R0]");
+
+	__asm("LDR R0,=pc");
+	g_task_arr[task_ID].task_context.return_address = ra;
+	g_task_arr[task_ID].task_context.stack_pointer = sp;
+	g_task_arr[task_ID].task_context.program_counter = pc;
+	__asm("nop");
+	__asm("nop");
+	__asm("nop");
+	__asm("nop");
+	__asm("nop");
+	__asm("LDR R0,=ra");
+	__asm("LDR R14,[R0]");
+
+	__asm("LDR R0,=sp");
+	__asm("LDR R13,[R0]");
+
+	__asm("LDR R0,=pc");
+	g_task_arr[task_ID].task_context.return_address = ra;
+	g_task_arr[task_ID].task_context.stack_pointer = sp;
+}
+void Load_context(uint8_t task_ID)
+{
+	__asm("LDR R0,=ra");
+	__asm("STR R14,[R0]");
+
+	__asm("LDR R0,=sp");
+	__asm("STR R13,[R0]");
+}

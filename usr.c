@@ -10,8 +10,6 @@
 #include <stdint.h>
 #include <stdlib.h>
 #include "osek.h"
-#include "fsl_gpio.h"
-#include "board.h"
 #include "PIT.h"
 #include "RGB.h"
 #define BOARD_LED_GPIO     BOARD_LED_RED_GPIO
@@ -20,33 +18,34 @@
 int main(void)
 {
 	GPIO_Init();
-	RGB_blue_on();
-	RGB_blue_off();
-	Init_PIT();
-	PIT_callback_init(TIMER_1, scheduler);
+	//Init_PIT();
+	//PIT_callback_init(TIMER_1, scheduler);
 	OS_init();
+
 	while (1){};
 }
 
 void task_A (void)
 {
-	GPIO_PortClear(GPIOC, 1 << 9U);
-	GPIO_PortSet(GPIOC, 1 << 9U);
+	RGB_red_on();
+	RGB_red_off();
+	Save_context(task_A_ID);
 	activate_task (task_B_ID);
 
 }
 
 void task_B (void)
 {
-	GPIO_PortClear(GPIOE, 1 << 6U);
-	GPIO_PortSet(GPIOE, 1 << 6U);
+	RGB_green_on();
+	RGB_green_off();
 	chain_task (task_C_ID, task_B_ID);
 }
 
 void task_C (void)
 {
-	GPIO_PortClear(GPIOA, 1 << 11U);
-	GPIO_PortSet(GPIOA, 1 << 11U);
+	RGB_blue_on();
+	RGB_blue_off();
+	Load_context(task_C_ID);
 	terminate_task (task_C_ID);
 
 }
