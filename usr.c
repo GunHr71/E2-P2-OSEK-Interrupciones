@@ -1,28 +1,21 @@
-/*registro
-  prioridad
-  autostart
-  apuntador al inicio de la tarea
-  task ID
-  apuntador de direccion actual de ejecucion
-  contexto
-
-*/
 #include <stdint.h>
 #include <stdlib.h>
 #include "osek.h"
 #include "PIT.h"
 #include "RGB.h"
+#include "NVIC.h"
 #define BOARD_LED_GPIO     BOARD_LED_RED_GPIO
 #define BOARD_LED_GPIO_PIN BOARD_LED_RED_GPIO_PIN
 
 int main(void)
 {
 	GPIO_Init();
+	NVIC_Init();
 	//Init_PIT();
 	//PIT_callback_init(TIMER_1, scheduler);
 	OS_init();
 
-	while (1){};
+ 	while (1){};
 }
 
 void task_A (void)
@@ -47,7 +40,4 @@ void task_C (void)
 	RGB_blue_off();
 	Load_context(task_C_ID);
 	terminate_task (task_C_ID);
-
 }
-
-

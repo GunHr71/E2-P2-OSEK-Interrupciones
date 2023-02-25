@@ -9,10 +9,16 @@
 #define E2_P2_OSEK_INTERRUPCIONES_GPIO_H_
 #include "stdint.h"
 
+#define SIM_5 (*((volatile uint32_t *) 0x40048038))
+#define PORTA_ISFR (*((volatile uint32_t *) 0x400490A0))
 /*-----PIN CONTROL REGISTER PIN-----*/
 typedef struct
 {
 	uint32_t PCR_pin[32];
+	uint32_t PORTA_GPCLR;
+	uint32_t PORTA_GPCHR;
+	const uint32_t RESERVED[6];
+	uint32_t PORTA_ISFRR;
 }PCRn_t;
 
 typedef struct {
@@ -64,6 +70,29 @@ typedef struct {
 #define BLUE_PIN 	11u
 #define RED_PIN 	9u
 #define GREEN_PIN 	6u
+#define SW2_PIN		10u		//PTD11
+#define SW3_PIN		11u		//PTA10
+/*-----CONSTANTS-----*/
+typedef enum{
+	IRQC_FALLING	= 10 << 16,
+	LOCK_REG		= 1 << 15,
+	MUX 		  	= 1 << 8,
+	DRVE_STRG_EN  	= 1 << 6,
+	OPEN_DRAIN_EN 	= 1 << 5,
+	PSVE_FLTR_EN  	= 1 << 4,
+	SLEW_RATE_EN  	= 1 << 2,
+	PULL_EN		  	= 1 << 1,
+	PULL_SEL		= 1 << 0,
+}PCR_CNFG;
+
+typedef enum{
+	SIMCG5_PORTA_BIT = 1 << 9,
+	SIMCG5_PORTB_BIT = 1 << 10,
+	SIMCG5_PORTC_BIT = 1 << 11,
+	SIMCG5_PORTD_BIT = 1 << 12,
+	SIMCG5_PORTE_BIT = 1 << 13,
+}SIMCG5;
+
 /*-----FUNCTIONS-----*/
 void GPIO_Init();
 
