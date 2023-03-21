@@ -26,7 +26,7 @@ void OS_init ()
 	g_task_arr[task_B_ID].p_initial_task = task_B;
 	g_task_arr[task_C_ID].p_initial_task = task_C;
 
-	scheduler();
+	//scheduler();
 }
 
 void activate_task (uint8_t task_ID)
@@ -85,29 +85,26 @@ void Save_context(uint8_t task_ID)
 {
 
 	__asm("LDR R0,=ra");
-	__asm("STR R14,[R0]");
+	__asm("STR R14,[R0]");	//Stores RA
 
 	__asm("LDR R0,=sp");
-	__asm("STR R13,[R0]");
+	__asm("STR R13,[R0]");	//Stores SP
 
+	__asm("MOV R0, PC");
 	__asm("LDR R0,=pc");
 	g_task_arr[task_ID].task_context.return_address = ra;
 	g_task_arr[task_ID].task_context.stack_pointer = sp;
 	g_task_arr[task_ID].task_context.program_counter = pc;
-	__asm("nop");
-	__asm("nop");
-	__asm("nop");
-	__asm("nop");
-	__asm("nop");
-	__asm("LDR R0,=ra");
-	__asm("LDR R14,[R0]");
-
-	__asm("LDR R0,=sp");
-	__asm("LDR R13,[R0]");
-
-	__asm("LDR R0,=pc");
-	g_task_arr[task_ID].task_context.return_address = ra;
-	g_task_arr[task_ID].task_context.stack_pointer = sp;
+	//Minimal inst to save pc
+	//__asm("MOV R0, PC");
+	//__asm("SUB R0, R0, #4");
+	//__asm("MOV PC, R0");
+	//LOAD FROM REG
+	//asm ("LDR R0,=src");
+	//asm ("LDR R1,[R0]");
+	//STORE FOR REG
+	//asm ("LDR R0,=dst");
+	//asm ("STR R1,[R0]");
 }
 void Load_context(uint8_t task_ID)
 {

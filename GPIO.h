@@ -93,7 +93,15 @@ typedef enum{
 	SIMCG5_PORTE_BIT = 1 << 13,
 }SIMCG5;
 
+typedef enum{
+	PORT_A = 0,
+	PORT_B = 1,
+	PORT_C = 2,
+	PORT_D = 3,
+	PORT_E = 4,
+}PORTx;
+
 /*-----FUNCTIONS-----*/
 void GPIO_Init();
-
+void GPIO_callback_init(PORTx port, void (*handler)(uint32_t flags));
 #endif /* E2_P2_OSEK_INTERRUPCIONES_GPIO_H_ */

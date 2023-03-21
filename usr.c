@@ -11,10 +11,8 @@ int main(void)
 {
 	GPIO_Init();
 	NVIC_Init();
-	//Init_PIT();
-	//PIT_callback_init(TIMER_1, scheduler);
+	GPIO_callback_init(PORTA, (void*)activate_task);
 	OS_init();
-
  	while (1){};
 }
 
@@ -24,13 +22,13 @@ void task_A (void)
 	RGB_red_off();
 	Save_context(task_A_ID);
 	activate_task (task_B_ID);
-
 }
 
 void task_B (void)
 {
 	RGB_green_on();
 	RGB_green_off();
+	//GPIO_callback_init(PORTA, (void*)chain_task);
 	chain_task (task_C_ID, task_B_ID);
 }
 
@@ -39,5 +37,6 @@ void task_C (void)
 	RGB_blue_on();
 	RGB_blue_off();
 	Load_context(task_C_ID);
+	//GPIO_callback_init(PORTA, (void*)terminate_task);
 	terminate_task (task_C_ID);
 }

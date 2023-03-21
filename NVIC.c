@@ -26,8 +26,8 @@ void NVIC_set_basepri_threshold(priority_level_t priority)
 {
 	/**Sets the threshold level to attend interrupts*/
 	/**A shift is needed to align in a correct manner the data in priority inside BASEPRI register*/
-	__asm("LSL R0, R0, #0x4");
-	__asm("MSR BASEPRI, R0");
+	__asm("LSL R0, R0, #0x4");	//
+	__asm("MSR BASEPRI, R0");	//Move special Register
 	//ESTO HACE LO MISMO QUE:
 	//__set_BASEPRI(priority << (8 - __NVIC_PRIO_BITS));
 
